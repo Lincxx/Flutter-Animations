@@ -33,8 +33,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   onTap() {
+    //The animation is stopped at the end
     if (catController.status == AnimationStatus.completed) {
       catController.reverse();
+      //The animation is stopped at the beginning
     } else if (catController.status == AnimationStatus.dismissed) {
       catController.forward();
     }
@@ -47,12 +49,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           title: Text('Animation!'),
         ),
         body: GestureDetector(
-          child: buildAnimation(),
+          child: Stack(
+            children: <Widget>[
+              buildCatAnimation(),
+              buildBox()
+            ],  
+          ),          
           onTap: onTap,
         ));
   }
 
-  Widget buildAnimation() {
+  Widget buildCatAnimation() {
     return AnimatedBuilder(
       animation: catAnimation,
       builder: (context, child) {
@@ -62,6 +69,14 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         );
       },
       child: Cat(),
+    );
+  }
+
+  Widget buildBox(){
+    return Container(
+      height: 200.0,
+      width: 200.0,
+      color: Colors.brown
     );
   }
 }
